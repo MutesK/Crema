@@ -44,8 +44,8 @@ namespace Ntreev.Crema.ApplicationHost
             CremaLog.RedirectionWriter = writer;
 
             RegisterLicense($"{typeof(App).Namespace}.Licenses.Newtonsoft.Json.Schema.license", item => Newtonsoft.Json.Schema.License.RegisterLicense(item));
-            RegisterLicense($"{typeof(App).Namespace}.Licenses.Xceed.Wpf.DataGrid.license", item => Xceed.Wpf.DataGrid.Licenser.LicenseKey = item);
-            RegisterLicense($"{typeof(App).Namespace}.Licenses.Xceed.Wpf.Toolkit.license", item => Xceed.Wpf.Toolkit.Licenser.LicenseKey = item);
+            //RegisterLicense($"{typeof(App).Namespace}.Licenses.Xceed.Wpf.DataGrid.license", item => Xceed.Wpf.DataGrid.Licenser.LicenseKey = item);
+            //RegisterLicense($"{typeof(App).Namespace}.Licenses.Xceed.Wpf.Toolkit.license", item => Xceed.Wpf.Toolkit.Licenser.LicenseKey = item);
 
             void RegisterLicense(string licenseName, Action<string> action)
             {
