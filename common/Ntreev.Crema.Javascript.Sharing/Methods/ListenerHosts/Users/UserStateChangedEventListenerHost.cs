@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 
-namespace Ntreev.Crema.Javascript.Methods.EventHandlers.Users
+namespace Ntreev.Crema.Javascript.Methods.ListenerHosts.Users
 {
-    [Export(typeof(EventHandlerBase))]
+    [Export(typeof(CremaEventListenerHost))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    class UserStateChangedEventHandler : EventHandlerBase
+    class UserStateChangedEventListenerHost : CremaEventListenerHost
     {
         private readonly ICremaHost cremaHost;
 
         [ImportingConstructor]
-        public UserStateChangedEventHandler(ICremaHost cremaHost)
+        public UserStateChangedEventListenerHost(ICremaHost cremaHost)
             : base(CremaEvents.UserStateChanged)
         {
             this.cremaHost = cremaHost;

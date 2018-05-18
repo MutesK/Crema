@@ -508,7 +508,7 @@ namespace Ntreev.Crema.Services.Data
             get
             {
                 if (this.dataBase == null)
-                    throw new InvalidOperationException("유효하지 않은 객체입니다.");
+                    throw new InvalidOperationException(Resources.Exception_InvalidObject);
                 return this.dataBase;
             }
         }
@@ -693,7 +693,7 @@ namespace Ntreev.Crema.Services.Data
 
                     var tableItem = item as ITableItem;
                     if (tableItem.IsLocked == true && tableItem.LockInfo.Path == tableItem.Path)
-                        throw new CremaException("이미 잠겨 있습니다.");
+                        throw new PermissionException(string.Format(Resources.Exception_ItemIsAlreadyLocked_Format, item.Path));
                 }
             }
         }
@@ -714,11 +714,11 @@ namespace Ntreev.Crema.Services.Data
             if (dataSet == null)
                 throw new ArgumentNullException(nameof(dataSet));
             if (dataSet.Tables.Any() == false)
-                throw new CremaException("빈 데이터 셋은 가져오기를 할 수 없습니다.");
+                throw new ArgumentException(Resources.Exception_EmptyDataSetCannotImport, nameof(dataSet));
             if (comment == null)
                 throw new ArgumentNullException(nameof(comment));
             if (comment == string.Empty)
-                throw new ArgumentException("comment must be not empty string.");
+                throw new ArgumentException(Resources.Exception_EmptyStringIsNotAllowed);
             var tableList = new List<Table>(dataSet.Tables.Count);
             foreach (var item in dataSet.Tables)
             {

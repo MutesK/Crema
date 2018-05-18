@@ -185,7 +185,7 @@ namespace Ntreev.Crema.Client.Framework.Controls
 
                         var props = typedList.GetItemProperties(null);
 
-                        
+
                         this.tableName = CremaDataTable.GetTableName(typedList.GetListName(null));
                         this.columnNames = CremaDataRowUtility.GetColumnNames(typedList);
 
@@ -364,19 +364,25 @@ namespace Ntreev.Crema.Client.Framework.Controls
 
         private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
+            if (e.Action == NotifyCollectionChangedAction.Reset && sender is INotifyCollectionChanged items)
             {
+                items.CollectionChanged -= Items_CollectionChanged;
+            }
 
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Reset)
+            this.Dispatcher.InvokeAsync(() =>
             {
-                var gridContext = DataGridControl.GetDataGridContext(this);
-                this.Select(this.results);
-                this.results = null;
-                this.hasField = false;
-                (gridContext.Items as INotifyCollectionChanged).CollectionChanged -= Items_CollectionChanged;
-                this.OnInserted(EventArgs.Empty);
-            }
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                {
+
+                }
+                else if (e.Action == NotifyCollectionChangedAction.Reset)
+                {
+                    this.Select(this.results);
+                    this.results = null;
+                    this.hasField = false;
+                    this.OnInserted(EventArgs.Empty);
+                }
+            });
         }
 
         private object[] CreateFields()

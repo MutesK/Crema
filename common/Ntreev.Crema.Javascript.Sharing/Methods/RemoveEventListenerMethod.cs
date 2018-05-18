@@ -38,14 +38,14 @@ namespace Ntreev.Crema.Javascript.Methods
 
         protected override Delegate CreateDelegate()
         {
-            return new Action<CremaEvents, int>(this.RemoveEventListener);
+            return new Action<CremaEvents, CremaEventListener>(this.RemoveEventListener);
         }
 
-        private void RemoveEventListener(CremaEvents eventName, int handlerID)
+        private void RemoveEventListener(CremaEvents eventName, CremaEventListener listener)
         {
-            if (this.Context.Properties[typeof(AddEventListenerMethod)] is AddEventListenerMethod script)
+            if (this.Context.Properties[typeof(CremaEventListenerContext)] is CremaEventListenerContext context)
             {
-                script.RemoveEventListener(eventName, handlerID);
+                context.RemoveEventListener(eventName, listener);
             }
             else
             {

@@ -680,7 +680,7 @@ namespace Ntreev.Crema.Services.Domains
         private void ValidateAdd(Authentication authentication)
         {
             if (this.users.Contains(authentication.ID) == true)
-                throw new CremaException();
+                throw new NotImplementedException();
         }
 
         private void ValidateRemove(Authentication authentication)
@@ -742,27 +742,31 @@ namespace Ntreev.Crema.Services.Domains
 
         private void ValidateKick(Authentication authentication, string userID, string comment)
         {
+            if (userID == null)
+                throw new ArgumentNullException(nameof(userID));
             if (this.users.ContainsKey(userID) == false)
-                throw new CremaException($"{userID}은(는) 편집중인 사용자가 아닙니다.");
+                throw new ArgumentException(string.Format(Resources.Exception_UserIsNotInDomain_Format, userID), nameof(userID));
 
             if (authentication.ID == userID)
-                throw new CremaException("자기 자신을 추방할 수 없습니다.");
+                throw new ArgumentException(Resources.Exception_CannotKickYourself, nameof(userID));
 
             var domainUser = this.users[userID];
             if (domainUser.IsOwner == true)
-                throw new PermissionDeniedException("편집장은 추방할 수 없습니다.");
+                throw new PermissionDeniedException(Resources.Exception_OwnerCannotKicked);
         }
 
         private void ValidateSetOwner(Authentication authentication, string userID)
         {
+            if (userID == null)
+                throw new ArgumentNullException(nameof(userID));
             if (this.users.ContainsKey(userID) == false)
-                throw new CremaException();
+                throw new ArgumentException(string.Format(Resources.Exception_UserIsNotInDomain_Format, userID), nameof(userID));
         }
 
         private void ValidateDomainUser(Authentication authentication)
         {
             if (this.dispatcher == null)
-                throw new CremaException();
+                throw new NotImplementedException();
 
             if (this.Users.Contains(authentication.ID) == false)
                 throw new UserNotFoundException(authentication.ID);
@@ -877,7 +881,7 @@ namespace Ntreev.Crema.Services.Domains
         private DomainUser GetDomainUser(Authentication authentication)
         {
             if (this.dispatcher == null)
-                throw new CremaException();
+                throw new NotImplementedException();
 
             if (this.Users.Contains(authentication.ID) == false)
                 throw new UserNotFoundException(authentication.ID);
